@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Assistant | LevelUp with Hella - VA Learning Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Base Inter Font */
+        body { font-family: 'Inter', sans-serif; }
+
+        /* Custom Colors/Variables */
+        :root {
+            --color-primary-dark: #1f2937; /* Dark Slate Blue */
+            --color-primary-medium: #0e7490; /* Teal-600 */
+            --color-primary-light: #0284c7; /* Sky-600 */
+            --color-accent: #34d399; /* Emerald-500 */
+            --color-background-light: #f9fafb; /* Gray-50 */
+            --color-text-dark: #1f2937;
+            --color-text-medium: #4b5563; /* Gray-700 */
+            --color-border-light: #e5e7eb; /* Gray-200 */
+
+            /* Advanced Gradient for key elements */
+            --gradient-subtle: linear-gradient(135deg, var(--color-primary-medium) 0%, var(--color-accent) 100%);
+        }
+
+        /* General Body and Main Container Styling */
+        body {
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+        }
+
+        /* Header Styling */
+        header {
+            background-color: white; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+        }
+        .logo-text-primary { color: var(--color-primary-light); }
+        .logo-text-secondary { color: var(--color-primary-medium); }
+        .logo-text-suffix { color: var(--color-text-dark); }
+        .nav-link {
+            color: var(--color-text-medium);
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-link:hover, .nav-link:focus {
+            color: var(--color-primary-medium);
+            transform: translateY(-1px);
+        }
+        .dropdown-content {
+            border: 1px solid var(--color-border-light);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+        }
+        /* Style for the arrow rotation */
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+
+        /* Sidebar Styling */
+        .sidebar {
+            background: var(--color-primary-dark); 
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); 
+            border-radius: 0.75rem;
+            min-height: 70vh; /* Ensure it looks substantial */
+        }
+        .sidebar-item {
+            padding: 1rem 1.5rem; 
+            border-radius: 0.375rem; 
+            transition: all 0.2s ease-in-out;
+            color: white; 
+            font-size: 0.95rem;
+        }
+        .sidebar-item:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.1); 
+            transform: translateX(5px); 
+        }
+        .sidebar-item.active {
+            background: var(--gradient-subtle); 
+            font-weight: 600; 
+            box-shadow: inset 3px 0 8px rgba(0,0,0,0.3); 
+            color: white !important;
+            border-left: 4px solid var(--color-accent); 
+        }
+
+        /* Content Area Styling */
+        .content-area {
+            background-color: white;
+            padding: 2.5rem; 
+            border-radius: 0.75rem; 
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); 
+            margin-left: 1.5rem; /* Spacing between sidebar and content */
+        }
+        .content-area h3 {
+            color: var(--color-text-dark);
+            border-bottom: 2px solid var(--color-border-light);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem; 
+        }
+
+        /* Table Styling */
+        .table-container {
+            margin-top: 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate; 
+            border-spacing: 0;
+        }
+        thead th {
+            background: var(--color-primary-medium); 
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.25rem; 
+            font-size: 0.875rem; 
+        }
+        thead tr:first-child th:first-child { border-top-left-radius: 0.5rem; }
+        thead tr:first-child th:last-child { border-top-right-radius: 0.5rem; }
+        tbody td {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--color-border-light);
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+        tbody tr:last-child td { border-bottom: none; } 
+        tbody tr:hover {
+            background-color: #f0f9ff; 
+            cursor: pointer;
+        }
+        
+        /* New Download Button Style */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--color-accent); /* Emerald-500 */
+            color: var(--color-text-dark);
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px; /* Pill shape */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 211, 153, 0.5); /* Shadow matching accent */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .download-btn:hover {
+            background-color: #10b981; /* Emerald-600 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 211, 153, 0.7);
+        }
+
+        /* Watch Video Link Styling */
+        .video-link { 
+            color: var(--color-primary-light); 
+            font-weight: 600;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .video-link:hover { 
+            color: var(--color-accent); 
+            text-decoration: underline;
+        }
+
+        /* Video Lightbox */
+        #videoModal { 
+            display:none; 
+            position:fixed; 
+            z-index:9999; 
+            padding-top:60px; 
+            left:0; 
+            top:0; 
+            width:100%; 
+            height:100%; 
+            background:rgba(31, 41, 55, 0.95); 
+        }
+        #videoModalContent { 
+            margin:auto; 
+            display:block; 
+            width:90%; 
+            max-width:900px;
+            aspect-ratio: 16 / 9; /* Ensure video frame is 16:9 */
+            border-radius: 0.75rem; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        #videoModalClose { 
+            position:absolute; 
+            top:15px; 
+            right:35px; 
+            color:white; 
+            font-size:40px; 
+            font-weight:bold; 
+            cursor:pointer; 
+            transition: color 0.3s;
+        }
+        #videoModalClose:hover, #videoModalClose:focus {
+            color: var(--color-accent); 
+        }
+        
+        /* Mobile Layout */
+        @media(max-width:768px){
+            .hub-container { flex-direction:column; }
+            .sidebar { 
+                width:100%; 
+                display:flex; 
+                overflow-x:auto; 
+                margin-bottom:20px; 
+                padding: 0; 
+                border-radius: 0;
+                min-height: auto;
+            }
+            .sidebar-list { 
+                display: flex; 
+                flex-direction: row; 
+                padding: 10px; 
+            }
+            .sidebar-item { 
+                flex-shrink: 0; 
+                white-space:nowrap; 
+                margin-right:5px; 
+                padding: 10px 15px; 
+                font-size: 0.8em;
+                border-radius: 9999px;
+                border-left: none !important;
+            }
+            .sidebar-item.active {
+                box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            }
+            .content-area { 
+                margin-left:0 !important; 
+                padding: 1.5rem; 
+            }
+            .content-area h3 { font-size: 1.5rem; }
+            /* Adjusted for new columns - making them wrap/stack better on mobile is ideal but hard in pure CSS table */
+            thead th, tbody td { padding: 0.75rem 0.5rem; font-size: 0.75rem; }
+            .download-btn { padding: 0.5rem 1rem; font-size: 0.75rem; }
+        }
+
+    </style>
+</head>
+<body class="antialiased text-gray-800 bg-gray-50 scroll-smooth">
+
+<!-- Header/Navbar (Copied from index.html) -->
+<header class="bg-white shadow-lg sticky top-0 z-50 rounded-b-xl">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <a href="../index.html" class="flex items-center space-x-1 text-3xl font-extrabold tracking-tight">
+                <span class="logo-text-primary">Level Up</span>
+                <span class="logo-text-secondary">with</span>
+                <span class="logo-text-suffix">Hella</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-accent" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 15l7-7m0 0l7 7m-7-7v12" />
+                </svg>
+            </a>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-6">
+            <a href="../index.html" class="nav-link text-gray-600 hover:text-primary-medium transition-colors duration-200 font-medium">Home</a>
+            <a href="../tools.html" class="nav-link text-gray-600 hover:text-primary-medium transition-colors duration-200 font-medium">Tools</a>
+            
+            <!-- CURRICULUM DROPDOWN - UPDATED FOR CLICK-TO-TOGGLE BEHAVIOR -->
+            <div class="relative" id="curriculum-menu-wrapper">
+                <button id="curriculum-btn" class="px-3 py-2 text-primary-medium transition-colors duration-200 font-medium flex items-center">
+                    Curriculum 
+                    <!-- Arrow will be rotated by JS when open -->
+                    <svg id="curriculum-arrow" class="w-4 h-4 ml-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <!-- Dropdown content starts hidden. JS will toggle the 'hidden' class. -->
+                <div id="curriculum-dropdown" class="dropdown-content absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 hidden">
+                    <div class="py-1">
+                        <a href="admin.html" class="nav-link block px-4 py-2 text-sm text-primary-medium font-semibold hover:bg-gray-100">Administrative / Executive Assistant</a>
+                        <a href="smm.html" class="nav-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Social Media Management</a>
+                        <a href="support.html" class="nav-link block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Customer Support</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="md:hidden">
+            <button id="btn-menu" aria-label="Open menu"
+                class="p-2 rounded-md hover:bg-gray-100 transition-colors duration-200">
+                <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main id="content-container" class="container mx-auto px-6 py-8 md:py-12">
+    <h2 class="text-4xl font-extrabold text-primary-dark mb-8">Administrative / Executive VA Training</h2>
+
+    <div class="hub-container flex flex-col md:flex-row gap-6">
+        
+        <!-- Sidebar Navigation -->
+        <div class="sidebar md:w-64 flex-shrink-0">
+            <h3 class="text-lg font-bold text-white p-4 border-b border-gray-700">Modules</h3>
+            <div class="sidebar-list flex flex-col space-y-2 p-4">
+                
+                <!-- 1. Introduction -->
+                <a href="#" class="sidebar-item active" data-target="introduction">Introduction to Administrative/EA VA</a>
+
+                <!-- 2. Email Management -->
+                <a href="#" class="sidebar-item" data-target="email">Email Management</a>
+
+                <!-- 3. Calendar Management -->
+                <a href="#" class="sidebar-item" data-target="calendar">Calendar Management</a>
+
+                <!-- 4. Document & File Management -->
+                <a href="#" class="sidebar-item" data-target="files">Document & File Management</a>
+
+                <!-- 5. Travel Management -->
+                <a href="#" class="sidebar-item" data-target="travel">Travel Management</a>
+
+                <!-- 6. Meeting Support & Note-Taking -->
+                <a href="#" class="sidebar-item" data-target="meeting">Meeting Support & Note-Taking</a>
+
+                <!-- 7. Task & Workflow Management -->
+                <a href="#" class="sidebar-item" data-target="tasks">Task & Workflow Management</a>
+
+                <!-- 8. Professional Communication -->
+                <a href="#" class="sidebar-item" data-target="communication">Professional Communication</a>
+
+                <!-- 9. Transcription -->
+                <a href="#" class="sidebar-item" data-target="transcription">Transcription</a>
+
+                <!-- 10. Reporting & Documentation -->
+                <a href="#" class="sidebar-item" data-target="reporting">Reporting & Documentation</a>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-grow">
+            <div class="content-area" id="content-area">
+                
+                <!-- 1. Introduction to Administrative/EA VA (Default Tab) -->
+                <div class="sub-tab" id="introduction" style="display: block;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Welcome to Your Administrative/EA VA Training!</h3>
+                    <p class="text-lg text-gray-700 mb-6">This introductory module sets the foundation for a successful career as an Administrative or Executive Virtual Assistant. We will cover the core role, essential mindset shifts, and key competencies required for professional success.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video Placeholder</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-4">1.1</td>
+                                    <td class="px-6 py-4">Define the scope and core responsibilities of a modern VA/EA.</td>
+                                    <td class="px-6 py-4">Role clarity, boundary setting, client expectation management.</td>
+                                    <td class="px-6 py-4">Role Overview, Service Agreement Templates</td>
+                                    <td class="px-6 py-4"><a href="#" class="video-link" data-video="https://www.youtube.com/embed/p_placeholder1?rel=0" title="Watch The Role of the Modern VA/EA">Watch Video</a></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4">1.2</td>
+                                    <td class="px-6 py-4">Adopt the professional mindset for virtual assistance and ethics.</td>
+                                    <td class="px-6 py-4">Proactivity, discretion, professionalism, client communication ethics.</td>
+                                    <td class="px-6 py-4">Professionalism & Ethics Primer</td>
+                                    <td class="px-6 py-4"><a href="#" class="video-link" data-video="https://www.youtube.com/embed/p_placeholder1_2?rel=0" title="Watch Professional Mindset">Watch Video</a></td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-4">1.3</td>
+                                    <td class="px-6 py-4">Identify and document client workflows and communication preferences.</td>
+                                    <td class="px-6 py-4">Active listening, requirements gathering, documentation skills.</td>
+                                    <td class="px-6 py-4">Onboarding Questionnaire, Case Study</td>
+                                    <td class="px-6 py-4"><a href="#" class="video-link" data-video="https://www.youtube.com/embed/p_placeholder1_3?rel=0" title="Watch Client Onboarding">Watch Video</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/placeholder-tracker-intro" target="_blank" class="download-btn">
+                            Download Introduction Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+
+                <!-- 2. Email Management (Now hidden by default) -->
+                <div class="sub-tab" id="email" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Email Management: Taming the Inbox</h3>
+                    <p class="text-lg text-gray-700 mb-6">Learn to manage high-volume inboxes, prioritize communication, and implement organization systems (like the Inbox Zero method) to ensure no critical message is missed.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                          <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Email Management</td>
+        <td class="px-6 py-4">Understand the role of email in client support, importance of organization</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Organizing Inbox</td>
+        <td class="px-6 py-4">Organize emails by project/client/priority, manage inbox efficiently</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Organizing Inbox</td>
+        <td class="px-6 py-4">Separate types of emails (Primary, Social, Promotions), reduce clutter</td>
+        <td class="px-6 py-4">Gmail</td>
+        <td class="px-6 py-4">Gmail</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Organizing Inbox</td>
+        <td class="px-6 py-4">Mark important emails, differentiate priority levels</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Organizing Inbox</td>
+        <td class="px-6 py-4">Automatically organize incoming emails, search efficiently</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Professional Email Practices</td>
+        <td class="px-6 py-4">Create professional signatures with name, title, contact info, links</td>
+        <td class="px-6 py-4">WiseStamp.com, Gmail, Outlook</td>
+        <td class="px-6 py-4">WiseStamp.com, Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Professional Email Practices</td>
+        <td class="px-6 py-4">Communicate unavailability professionally, schedule automatic responses</td>
+        <td class="px-6 py-4">Gmail, Outlook, ChatGPT</td>
+        <td class="px-6 py-4">Gmail, Outlook, ChatGPT</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Professional Email Practices</td>
+        <td class="px-6 py-4">Save time with reusable emails for recurring messages</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Advanced Email Management</td>
+        <td class="px-6 py-4">Combine labels, filters, categories, stars for inbox zero or near-zero</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Advanced Email Management</td>
+        <td class="px-6 py-4">Share folders/labels, assign emails to team members</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Advanced Email Management</td>
+        <td class="px-6 py-4">Schedule emails, reminders, follow-ups, extensions for efficiency</td>
+        <td class="px-6 py-4">Boomerang, Spark, Sortd</td>
+        <td class="px-6 py-4">Boomerang, Spark, Sortd</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Advanced Email Management</td>
+        <td class="px-6 py-4">Avoid phishing, maintain professional tone, manage sensitive info</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1g0xk5GTBn5i5nEnJZwmAitqWg01GG92luM_adYe_Pfw/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Email Management Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3. Calendar Management (Hidden) -->
+                <div class="sub-tab" id="calendar" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Calendar Management: Mastering Time</h3>
+                    <p class="text-lg text-gray-700 mb-6">Efficient scheduling, time zone management, and proactive conflict resolution are critical. Learn to treat the client's calendar as a strategic tool.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Calendar Management</td>
+        <td class="px-6 py-4">Introduction to Calendar Management</td>
+        <td class="px-6 py-4">Understand EA role in managing calendars, improve productivity, avoid conflicts</td>
+        <td class="px-6 py-4">Google Calendar, Outlook Calendar, Calendly</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">How to Create Events and Appointments</td>
+        <td class="px-6 py-4">Organizing & Scheduling Events</td>
+        <td class="px-6 py-4">Create events, add dates/times/descriptions, invite participants</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Recurring Events & Reminders</td>
+        <td class="px-6 py-4">Organizing & Scheduling Events</td>
+        <td class="px-6 py-4">Set daily/weekly/monthly recurring events, add notifications, avoid double-booking</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Color-Coding & Categorizing Events</td>
+        <td class="px-6 py-4">Organizing & Scheduling Events</td>
+        <td class="px-6 py-4">Use colors to differentiate meeting types, apply categories/labels for organization</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Time Zones & International Scheduling</td>
+        <td class="px-6 py-4">Organizing & Scheduling Events</td>
+        <td class="px-6 py-4">Handle meetings across multiple time zones, calculate differences accurately</td>
+        <td class="px-6 py-4">Google Calendar, Outlook, Time Zone Tools</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Integrating Calendars & Scheduling Tools</td>
+        <td class="px-6 py-4">Calendar Integration & Tools</td>
+        <td class="px-6 py-4">Sync multiple calendars, use scheduling tools for clients, manage team calendars</td>
+        <td class="px-6 py-4">Google Calendar, Outlook, Calendly, Doodle</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Managing Conflicts & Rescheduling</td>
+        <td class="px-6 py-4">Calendar Conflict Management</td>
+        <td class="px-6 py-4">Detect scheduling conflicts, reschedule politely, notify all participants</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Calendar Sharing & Permissions</td>
+        <td class="px-6 py-4">Calendar Collaboration</td>
+        <td class="px-6 py-4">Share calendars, set access levels (view/edit/manage), manage collaborative scheduling</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Optimizing Client Schedules</td>
+        <td class="px-6 py-4">Advanced Calendar Management</td>
+        <td class="px-6 py-4">Block scheduling, time batching, manage high-volume client calendars, reduce overlaps</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Integrating Email & Calendar Workflow</td>
+        <td class="px-6 py-4">Advanced Calendar Management</td>
+        <td class="px-6 py-4">Link emails to calendar events, use notifications for follow-ups, streamline workflow</td>
+        <td class="px-6 py-4">Gmail/Outlook, Google Calendar, Outlook Calendar</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Automation & Productivity Hacks</td>
+        <td class="px-6 py-4">Advanced Calendar Management</td>
+        <td class="px-6 py-4">Automate reminders, use AI tools to suggest meeting times, calendar add-ons for efficiency</td>
+        <td class="px-6 py-4">Google Calendar, Outlook, AI Tools</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Etiquette & Best Practices</td>
+        <td class="px-6 py-4">Advanced Calendar Management</td>
+        <td class="px-6 py-4">Communicate professionally when scheduling/rescheduling, respect client time zones</td>
+        <td class="px-6 py-4">Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1O0KbDwAQ-Ye8GEXA6ewMyXxo3JawYU8Ot8l1ut2s_W8/edit?gid=0#gid=0" target="_blank" class="download-btn">
+                            Download Calendar Management Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 4. Document & File Management (Hidden) -->
+                <div class="sub-tab" id="files" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Document & File Management</h3>
+                    <p class="text-lg text-gray-700 mb-6">Create logical, accessible, and secure digital filing systems using Google Drive, Dropbox, and cloud-based platforms.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                           <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Document Management</td>
+        <td class="px-6 py-4">Introduction to Document & File Management</td>
+        <td class="px-6 py-4">Understand the role of document management for Admin/EA, importance of organization</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Organizing Files & Folders</td>
+        <td class="px-6 py-4">Creating Folder Structures</td>
+        <td class="px-6 py-4">Design clear folder hierarchies, organize files by project/client/priority</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Organizing Files & Folders</td>
+        <td class="px-6 py-4">Naming Conventions & File Organization</td>
+        <td class="px-6 py-4">Standardize file names, use consistent naming conventions for easy search and retrieval</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Organizing Files & Folders</td>
+        <td class="px-6 py-4">Categorizing & Tagging Files</td>
+        <td class="px-6 py-4">Use categories/tags for better filtering and quick access</td>
+        <td class="px-6 py-4">Google Drive, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Document Collaboration</td>
+        <td class="px-6 py-4">Sharing & Permissions</td>
+        <td class="px-6 py-4">Share files securely, set permissions (view/edit/comment), manage access levels</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Document Collaboration</td>
+        <td class="px-6 py-4">Version Control & Tracking Changes</td>
+        <td class="px-6 py-4">Track file revisions, maintain version history, prevent data loss</td>
+        <td class="px-6 py-4">Google Docs, Word, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Document Editing & Formatting</td>
+        <td class="px-6 py-4">Editing & Formatting Documents</td>
+        <td class="px-6 py-4">Apply formatting standards, use templates, ensure professional appearance</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Advanced File Management</td>
+        <td class="px-6 py-4">Advanced Search & Retrieval</td>
+        <td class="px-6 py-4">Use search operators, filters, and metadata to quickly locate files</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Advanced File Management</td>
+        <td class="px-6 py-4">Backup & Data Security</td>
+        <td class="px-6 py-4">Backup files, use encryption, protect sensitive client data</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive, Cloud Backup Tools</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Advanced File Management</td>
+        <td class="px-6 py-4">Integration with Other Tools</td>
+        <td class="px-6 py-4">Connect document management with task, email, and project management tools</td>
+        <td class="px-6 py-4">Google Workspace, Microsoft 365, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Document Naming & Filing Standards</td>
+        <td class="px-6 py-4">Maintain consistency across client files, apply best practices for easy collaboration</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Efficient Workflow & Maintenance</td>
+        <td class="px-6 py-4">Regularly update, declutter, and organize files to maintain productivity</td>
+        <td class="px-6 py-4">Google Drive, Dropbox, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1L_HqFBTBYhv5sFRaOS4juNMDf0X5PKk5CpvvLNRMOIc/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Document & File Management Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 5. Travel Management (Hidden) -->
+                <div class="sub-tab" id="travel" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Travel Management</h3>
+                    <p class="text-lg text-gray-700 mb-6">From booking flights and hotels to creating detailed itineraries and managing last-minute changes—master the art of stress-free travel planning.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Travel Management</td>
+        <td class="px-6 py-4">Introduction to Travel Management</td>
+        <td class="px-6 py-4">Understand the role of a travel VA, types of travel tasks, and client support</td>
+        <td class="px-6 py-4">None</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Travel Research Basics</td>
+        <td class="px-6 py-4">Researching Flights & Transportation</td>
+        <td class="px-6 py-4">Search and compare flights, understand layovers, select best options</td>
+        <td class="px-6 py-4">Google Flights, Skyscanner, Expedia, Kayak</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Travel Research Basics</td>
+        <td class="px-6 py-4">Researching Accommodations</td>
+        <td class="px-6 py-4">Compare hotels, check amenities, ratings, location, and pricing</td>
+        <td class="px-6 py-4">Booking.com, Hotels.com, Airbnb</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Travel Booking</td>
+        <td class="px-6 py-4">Booking Flights & Accommodation</td>
+        <td class="px-6 py-4">Complete bookings, receive confirmations, apply client preferences</td>
+        <td class="px-6 py-4">Airline Websites, Booking.com, Expedia</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Travel Booking</td>
+        <td class="px-6 py-4">Arranging Local Transportation</td>
+        <td class="px-6 py-4">Plan airport transfers, car rentals, ride-sharing, and public transport</td>
+        <td class="px-6 py-4">Uber, Lyft, Rentalcars.com, Local Apps</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Travel Itinerary Planning</td>
+        <td class="px-6 py-4">Creating Detailed Itineraries</td>
+        <td class="px-6 py-4">Organize travel schedules, meetings, flights, accommodations, and local logistics</td>
+        <td class="px-6 py-4">Google Sheets, Excel, TripIt</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Travel Policy & Budgeting</td>
+        <td class="px-6 py-4">Managing Travel Policies & Budgets</td>
+        <td class="px-6 py-4">Understand client travel policies, cost limits, and budgeting strategies</td>
+        <td class="px-6 py-4">Excel, Google Sheets, Travel Policy Docs</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Travel Updates & Communication</td>
+        <td class="px-6 py-4">Communicating Travel Updates</td>
+        <td class="px-6 py-4">Notify clients of changes, delays, or cancellations professionally</td>
+        <td class="px-6 py-4">Gmail, Outlook, WhatsApp, Slack</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Travel Contingency Management</td>
+        <td class="px-6 py-4">Handling Travel Risks & Emergencies</td>
+        <td class="px-6 py-4">Resolve flight cancellations, delays, missed connections, and emergencies efficiently</td>
+        <td class="px-6 py-4">Airline Apps, Travel Insurance, Local Support Contacts</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Advanced Travel Management</td>
+        <td class="px-6 py-4">Travel Tool Integration</td>
+        <td class="px-6 py-4">Integrate travel booking, calendars, and task management for workflow efficiency</td>
+        <td class="px-6 py-4">TripIt, Google Calendar, Outlook, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Maintaining Accuracy & Organization</td>
+        <td class="px-6 py-4">Keep client travel data organized, accurate, and updated</td>
+        <td class="px-6 py-4">Google Sheets, Excel, TripIt</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Travel Etiquette & Best Practices</td>
+        <td class="px-6 py-4">Communicate professionally with airlines, hotels, and clients; respect client preferences</td>
+        <td class="px-6 py-4">Email, Phone, WhatsApp, Slack</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1xV1f2BONFxd5v82osxlbD8pxyHItfvmI1e22mo0iOVM/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Travel Management Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 6. Meeting Support & Note-Taking (Hidden) -->
+                <div class="sub-tab" id="meeting" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Meeting Support & Note-Taking</h3>
+                    <p class="text-lg text-gray-700 mb-6">Facilitate smooth meetings by managing agenda, providing technical support, and capturing actionable notes and decisions.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Meeting Support</td>
+        <td class="px-6 py-4">Introduction to Meeting Support & Note-Taking</td>
+        <td class="px-6 py-4">Understand the role of an Admin/EA in meetings, importance of accurate note-taking</td>
+        <td class="px-6 py-4">Zoom, Google Meet, Microsoft Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Meeting Preparation</td>
+        <td class="px-6 py-4">Preparing Agendas</td>
+        <td class="px-6 py-4">Create clear, structured agendas for client meetings</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Meeting Preparation</td>
+        <td class="px-6 py-4">Scheduling & Invites</td>
+        <td class="px-6 py-4">Schedule meetings, send invitations, attach agendas</td>
+        <td class="px-6 py-4">Google Calendar, Outlook, Calendly</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Live Meeting Support</td>
+        <td class="px-6 py-4">Taking Real-Time Notes</td>
+        <td class="px-6 py-4">Capture key discussion points, decisions, and action items during meetings</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Live Meeting Support</td>
+        <td class="px-6 py-4">Recording & Transcription</td>
+        <td class="px-6 py-4">Record meetings for accuracy, create transcripts</td>
+        <td class="px-6 py-4">Zoom, Otter.ai, Microsoft Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Post-Meeting Documentation</td>
+        <td class="px-6 py-4">Summarizing Action Items</td>
+        <td class="px-6 py-4">Extract and organize actionable items, assign responsibilities</td>
+        <td class="px-6 py-4">Google Docs, Excel, Trello, Asana</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Post-Meeting Documentation</td>
+        <td class="px-6 py-4">Formatting & Distributing Minutes</td>
+        <td class="px-6 py-4">Format notes professionally, share with clients/team</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Advanced Note-Taking Techniques</td>
+        <td class="px-6 py-4">Using Templates & Checklists</td>
+        <td class="px-6 py-4">Standardize note-taking, create reusable templates and checklists</td>
+        <td class="px-6 py-4">Google Docs, Notion, Microsoft Word</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Advanced Note-Taking Techniques</td>
+        <td class="px-6 py-4">Collaborative Note-Taking</td>
+        <td class="px-6 py-4">Share and edit notes in real-time with team members</td>
+        <td class="px-6 py-4">Google Docs, Notion, Microsoft Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Ensuring Accuracy & Consistency</td>
+        <td class="px-6 py-4">Verify notes against recordings, maintain consistent formatting and style</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Confidentiality & Security</td>
+        <td class="px-6 py-4">Protect sensitive client information, manage access to notes</td>
+        <td class="px-6 py-4">Google Drive, OneDrive, Dropbox</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Professional Communication in Meetings</td>
+        <td class="px-6 py-4">Communicate effectively during and after meetings, maintain professionalism</td>
+        <td class="px-6 py-4">Zoom, Google Meet, Microsoft Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1r5CfOhwQg52iSAFTFWAOPYD_v8dJVoU-po2NRP5idGQ/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Meeting Support Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 7. Task & Workflow Management (Hidden) -->
+                <div class="sub-tab" id="tasks" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Task & Workflow Management</h3>
+                    <p class="text-lg text-gray-700 mb-6">Become a pro at delegating, tracking, and completing tasks using tools like Asana, Trello, and ClickUp, ensuring accountability and project flow.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Task Management</td>
+        <td class="px-6 py-4">Introduction to Task & Workflow Management</td>
+        <td class="px-6 py-4">Understand the role of task/workflow management for Admin/EA, importance for productivity</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Monday.com</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Task Creation & Prioritization</td>
+        <td class="px-6 py-4">Creating Tasks</td>
+        <td class="px-6 py-4">Break projects into tasks, define objectives, assign deadlines</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Monday.com</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Task Creation & Prioritization</td>
+        <td class="px-6 py-4">Prioritizing Tasks</td>
+        <td class="px-6 py-4">Use priority levels, deadlines, and urgency to organize tasks</td>
+        <td class="px-6 py-4">Trello, Asana, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Task Tracking & Progress Monitoring</td>
+        <td class="px-6 py-4">Tracking Task Progress</td>
+        <td class="px-6 py-4">Monitor status, update task completion, and flag overdue items</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Monday.com</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Workflow Automation</td>
+        <td class="px-6 py-4">Automating Task Management</td>
+        <td class="px-6 py-4">Use automation to reduce manual updates, reminders, and follow-ups</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Zapier</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Collaboration & Delegation</td>
+        <td class="px-6 py-4">Assigning Tasks to Team Members</td>
+        <td class="px-6 py-4">Delegate responsibilities, track assignments, ensure accountability</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Monday.com</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Project Organization</td>
+        <td class="px-6 py-4">Organizing Tasks by Project/Category</td>
+        <td class="px-6 py-4">Group related tasks, use boards/lists for clarity</td>
+        <td class="px-6 py-4">Trello, Asana, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Advanced Workflow Techniques</td>
+        <td class="px-6 py-4">Using Checklists & Templates</td>
+        <td class="px-6 py-4">Standardize repetitive workflows, use task templates for efficiency</td>
+        <td class="px-6 py-4">Trello, Asana, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Advanced Workflow Techniques</td>
+        <td class="px-6 py-4">Integrating with Calendar & Email</td>
+        <td class="px-6 py-4">Link tasks to deadlines and client communication, sync with calendars</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Google Calendar, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Productivity Optimization</td>
+        <td class="px-6 py-4">Time Blocking & Workflow Batching</td>
+        <td class="px-6 py-4">Group similar tasks, allocate focused work periods, reduce context switching</td>
+        <td class="px-6 py-4">Trello, Asana, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Monitoring Team Productivity</td>
+        <td class="px-6 py-4">Track progress across team, generate reports, identify bottlenecks</td>
+        <td class="px-6 py-4">Trello, Asana, Notion, Excel</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Task & Workflow Best Practices</td>
+        <td class="px-6 py-4">Maintain task consistency, optimize recurring workflows, professional documentation</td>
+        <td class="px-6 py-4">Trello, Asana, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1m2UCuk6P1cpdGtysmQg6tfMsqZGMI2v1AAmX8yJ-u3g/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Task & Workflow Management Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 8. Professional Communication (Hidden) -->
+                <div class="sub-tab" id="communication" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Professional Communication</h3>
+                    <p class="text-lg text-gray-700 mb-6">Master written and verbal communication, including client updates, conflict resolution, and maintaining a positive, professional tone in all interactions.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Professional Communication</td>
+        <td class="px-6 py-4">Introduction to Professional Communication</td>
+        <td class="px-6 py-4">Understand the role of professional communication in Admin/EA tasks and client relations</td>
+        <td class="px-6 py-4">Gmail, Outlook, Slack, Zoom, Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Email Communication Basics</td>
+        <td class="px-6 py-4">Writing Clear & Concise Emails</td>
+        <td class="px-6 py-4">Craft professional, clear, and polite emails for client and team communication</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Email Communication Basics</td>
+        <td class="px-6 py-4">Email Tone & Etiquette</td>
+        <td class="px-6 py-4">Use appropriate tone, greetings, sign-offs, and formatting</td>
+        <td class="px-6 py-4">Gmail, Outlook</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Chat & Instant Messaging</td>
+        <td class="px-6 py-4">Professional Messaging in Chat Tools</td>
+        <td class="px-6 py-4">Communicate effectively via Slack, Teams, or WhatsApp while maintaining professionalism</td>
+        <td class="px-6 py-4">Slack, Microsoft Teams, WhatsApp</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Video & Call Communication</td>
+        <td class="px-6 py-4">Conducting Professional Video Calls</td>
+        <td class="px-6 py-4">Speak clearly, use proper body language, mute/unmute etiquette, manage screen sharing</td>
+        <td class="px-6 py-4">Zoom, Google Meet, Microsoft Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Client Interaction & Updates</td>
+        <td class="px-6 py-4">Providing Status Updates</td>
+        <td class="px-6 py-4">Communicate task/project progress clearly, timely updates, and follow-ups</td>
+        <td class="px-6 py-4">Gmail, Slack, Microsoft Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Handling Difficult Conversations</td>
+        <td class="px-6 py-4">Managing Conflicts & Miscommunications</td>
+        <td class="px-6 py-4">Respond professionally, de-escalate tension, maintain composure</td>
+        <td class="px-6 py-4">Gmail, Outlook, Slack, Zoom</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Advanced Professional Writing</td>
+        <td class="px-6 py-4">Creating Reports & Memos</td>
+        <td class="px-6 py-4">Write structured, professional reports, summaries, and memos</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Professional Communication Tools</td>
+        <td class="px-6 py-4">Using Templates & Automation</td>
+        <td class="px-6 py-4">Standardize communication with templates, use scheduling tools for messages</td>
+        <td class="px-6 py-4">Gmail, Outlook, Slack, Zapier</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Cross-Cultural Communication</td>
+        <td class="px-6 py-4">Working with International Clients</td>
+        <td class="px-6 py-4">Respect cultural differences, adapt communication style, handle language/time zone challenges</td>
+        <td class="px-6 py-4">Gmail, Zoom, Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Maintaining Consistency & Professionalism</td>
+        <td class="px-6 py-4">Ensure consistent tone, formatting, and clarity across all communications</td>
+        <td class="px-6 py-4">Gmail, Outlook, Slack, Zoom</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Confidentiality & Ethical Communication</td>
+        <td class="px-6 py-4">Protect client info, maintain confidentiality, ethical handling of sensitive data</td>
+        <td class="px-6 py-4">Gmail, Outlook, Slack, Teams</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1vRkuoQK0OY9NEzwLFlITgKMnY42sFQjbiH6JKRyiy8w/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Professional Communication Progress Tracker
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 9. Transcription (Hidden) -->
+                <div class="sub-tab" id="transcription" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Transcription</h3>
+                    <p class="text-lg text-gray-700 mb-6">Learn best practices for turning audio or video into accurate, well-formatted text documents, covering various tools and formatting styles.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                   <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Transcription</td>
+        <td class="px-6 py-4">Introduction to Transcription</td>
+        <td class="px-6 py-4">Understand the role of transcription for Admin/EA tasks, importance of accuracy and speed</td>
+        <td class="px-6 py-4">Audacity, Otter.ai, Express Scribe</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Audio/Video Preparation</td>
+        <td class="px-6 py-4">Preparing Audio/Video Files for Transcription</td>
+        <td class="px-6 py-4">Import, organize, and set up audio/video files for efficient transcription</td>
+        <td class="px-6 py-4">Audacity, VLC, Express Scribe</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Transcription Basics</td>
+        <td class="px-6 py-4">Manual Transcription Skills</td>
+        <td class="px-6 py-4">Learn to type accurately while listening, identify speakers, use timestamps</td>
+        <td class="px-6 py-4">Microsoft Word, Google Docs, Express Scribe</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Transcription Basics</td>
+        <td class="px-6 py-4">Formatting Transcriptions</td>
+        <td class="px-6 py-4">Apply correct formatting, speaker labels, paragraph breaks, punctuation</td>
+        <td class="px-6 py-4">Microsoft Word, Google Docs</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Using Transcription Tools</td>
+        <td class="px-6 py-4">Using Auto-Transcription Software</td>
+        <td class="px-6 py-4">Use AI-powered tools to transcribe audio/video, edit and correct errors</td>
+        <td class="px-6 py-4">Otter.ai, Sonix, Descript</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Accuracy & Proofreading</td>
+        <td class="px-6 py-4">Editing & Proofreading Transcriptions</td>
+        <td class="px-6 py-4">Spot errors, correct grammar/punctuation, ensure 100% accuracy</td>
+        <td class="px-6 py-4">Microsoft Word, Google Docs</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Advanced Techniques</td>
+        <td class="px-6 py-4">Time-Coding & Timestamps</td>
+        <td class="px-6 py-4">Add timestamps for video/audio reference, synchronize with content</td>
+        <td class="px-6 py-4">Express Scribe, Otter.ai, Descript</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Advanced Techniques</td>
+        <td class="px-6 py-4">Transcribing Multi-Speaker Meetings</td>
+        <td class="px-6 py-4">Identify and label multiple speakers accurately, maintain clarity</td>
+        <td class="px-6 py-4">Audacity, Otter.ai, Express Scribe</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Transcription for Legal/Medical</td>
+        <td class="px-6 py-4">Specialized Transcription</td>
+        <td class="px-6 py-4">Understand formatting and accuracy requirements for legal, medical, or technical content</td>
+        <td class="px-6 py-4">Microsoft Word, Otter.ai</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Integration & Workflow</td>
+        <td class="px-6 py-4">Integrating Transcriptions into Workflow</td>
+        <td class="px-6 py-4">Convert transcripts into reports, meeting notes, subtitles, or client deliverables</td>
+        <td class="px-6 py-4">Microsoft Word, Google Docs, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Maintaining Confidentiality</td>
+        <td class="px-6 py-4">Handle sensitive client audio/video files securely, maintain privacy</td>
+        <td class="px-6 py-4">Dropbox, Google Drive, OneDrive</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Professional Standards & Efficiency</td>
+        <td class="px-6 py-4">Ensure timely delivery, maintain quality, follow client preferences</td>
+        <td class="px-6 py-4">Microsoft Word, Google Docs, Otter.ai</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1QnoAVyWiIocofNkxfR7ecwSm5ypOpsu_wHTLD46KFCI/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Transcription Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 10. Reporting & Documentation (Hidden) -->
+                <div class="sub-tab" id="reporting" style="display: none;">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary-dark">Reporting & Documentation</h3>
+                    <p class="text-lg text-gray-700 mb-6">Create clear, concise weekly reports, track key performance indicators (KPIs), and document processes to ensure seamless workflow and accountability.</p>
+                    <div class="table-container">
+                        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                            <thead class="bg-primary-medium text-white">
+                                <tr>
+                                    <th class="px-6 py-3 text-left">Step</th>
+                                    <th class="px-6 py-3 text-left">Topic / Focus</th>
+                                    <th class="px-6 py-3 text-left">Objective</th>
+                                    <th class="px-6 py-3 text-left">Skills / Knowledge Gained</th>
+                                    <th class="px-6 py-3 text-left">Tools / Software</th>
+                                    <th class="px-6 py-3 text-left">Video</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">1</td>
+        <td class="px-6 py-4">Introduction to Reporting & Documentation</td>
+        <td class="px-6 py-4">Introduction to Reporting & Documentation</td>
+        <td class="px-6 py-4">Understand the role of reporting/documentation for Admin/EA tasks, importance for decision-making</td>
+        <td class="px-6 py-4">Google Sheets, Excel, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder1?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">2</td>
+        <td class="px-6 py-4">Data Collection & Organization</td>
+        <td class="px-6 py-4">Collecting Relevant Data</td>
+        <td class="px-6 py-4">Identify, gather, and organize relevant data from multiple sources</td>
+        <td class="px-6 py-4">Google Sheets, Excel, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder2?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">3</td>
+        <td class="px-6 py-4">Basic Reporting Techniques</td>
+        <td class="px-6 py-4">Creating Simple Reports</td>
+        <td class="px-6 py-4">Build basic reports with tables, charts, and summaries</td>
+        <td class="px-6 py-4">Google Sheets, Excel</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder3?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">4</td>
+        <td class="px-6 py-4">Basic Reporting Techniques</td>
+        <td class="px-6 py-4">Formatting Reports</td>
+        <td class="px-6 py-4">Apply professional formatting, headings, and layout for readability</td>
+        <td class="px-6 py-4">Google Sheets, Excel, Google Docs</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder4?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">5</td>
+        <td class="px-6 py-4">Advanced Reporting</td>
+        <td class="px-6 py-4">Using Formulas & Functions</td>
+        <td class="px-6 py-4">Perform calculations, summaries, and analysis using formulas</td>
+        <td class="px-6 py-4">Excel, Google Sheets</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder5?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">6</td>
+        <td class="px-6 py-4">Advanced Reporting</td>
+        <td class="px-6 py-4">Data Visualization</td>
+        <td class="px-6 py-4">Create charts, graphs, and dashboards to present insights visually</td>
+        <td class="px-6 py-4">Excel, Google Sheets, Google Data Studio</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder6?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">7</td>
+        <td class="px-6 py-4">Reporting Automation</td>
+        <td class="px-6 py-4">Automating Reports</td>
+        <td class="px-6 py-4">Schedule recurring reports, use templates, auto-update dashboards</td>
+        <td class="px-6 py-4">Excel, Google Sheets, Google Data Studio, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder7?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">8</td>
+        <td class="px-6 py-4">Collaborative Reporting</td>
+        <td class="px-6 py-4">Sharing & Collaborative Editing</td>
+        <td class="px-6 py-4">Share reports with team/clients, set permissions, track changes</td>
+        <td class="px-6 py-4">Google Sheets, Excel, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder8?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">9</td>
+        <td class="px-6 py-4">Advanced Analytics</td>
+        <td class="px-6 py-4">Analyzing Data & Generating Insights</td>
+        <td class="px-6 py-4">Identify trends, KPIs, and actionable insights from data</td>
+        <td class="px-6 py-4">Excel, Google Sheets, Google Data Studio</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder9?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">10</td>
+        <td class="px-6 py-4">Professional Documentation</td>
+        <td class="px-6 py-4">Preparing Professional Reports</td>
+        <td class="px-6 py-4">Compile final reports, summaries, and dashboards for stakeholders</td>
+        <td class="px-6 py-4">Google Docs, Microsoft Word, Excel</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder10?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-gray-50">
+        <td class="px-6 py-4">11</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Accuracy & Quality Control</td>
+        <td class="px-6 py-4">Ensure reports are error-free, consistent, and reliable</td>
+        <td class="px-6 py-4">Google Sheets, Excel, Notion</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder11?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+    <tr class="bg-white">
+        <td class="px-6 py-4">12</td>
+        <td class="px-6 py-4">Professional Practices</td>
+        <td class="px-6 py-4">Confidentiality & Data Security</td>
+        <td class="px-6 py-4">Protect sensitive client information, follow data privacy and security standards</td>
+        <td class="px-6 py-4">Google Drive, OneDrive, Dropbox</td>
+        <td class="px-6 py-4">
+            <a href="#" class="video-link" data-video="https://www.youtube.com/embed/placeholder12?rel=0" title="Watch Video">Watch Video</a>
+        </td>
+    </tr>
+</tbody>
+
+                        </table>
+                    </div>
+                    <!-- Tracker Download Button -->
+                    <div class="mt-6 text-center">
+                        <a href="https://docs.google.com/spreadsheets/d/1Uo6GPF6Z7nClzt0JSxBcCFDfowjuJvk7uo9jg_1Cn00/edit?usp=sharing" target="_blank" class="download-btn">
+                            Download Reporting & Documentation Progress Tracker
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Video Modal Lightbox -->
+<div id="videoModal">
+    <span id="videoModalClose">&times;</span>
+    <iframe id="videoModalContent" width="100%" height="100%" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const contentTabs = document.querySelectorAll('.sub-tab');
+        const videoModal = document.getElementById('videoModal');
+        const videoIframe = document.getElementById('videoModalContent');
+        const closeModal = document.getElementById('videoModalClose');
+        const videoLinks = document.querySelectorAll('.video-link');
+        
+        // --- NEW DROPDOWN CLICK LOGIC ---
+        const curriculumBtn = document.getElementById('curriculum-btn');
+        const curriculumDropdown = document.getElementById('curriculum-dropdown');
+        const curriculumArrow = document.getElementById('curriculum-arrow');
+        const curriculumMenuWrapper = document.getElementById('curriculum-menu-wrapper');
+
+        // Function to open/close the dropdown
+        function toggleDropdown() {
+            const isHidden = curriculumDropdown.classList.contains('hidden');
+            
+            // Toggle visibility (open if hidden, close if visible)
+            curriculumDropdown.classList.toggle('hidden');
+            
+            // Toggle arrow rotation
+            curriculumArrow.classList.toggle('rotate-180', isHidden);
+        }
+
+        // 1. Toggle when the button is clicked
+        curriculumBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Prevents the outside click listener from immediately closing it
+            toggleDropdown();
+        });
+
+        // 2. Close when a link inside is clicked (either navigates or just closes if on the same page)
+        curriculumDropdown.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // Close the dropdown immediately after a selection is made
+                curriculumDropdown.classList.add('hidden');
+                curriculumArrow.classList.remove('rotate-180');
+            });
+        });
+
+        // 3. Close when clicking outside the menu area
+        document.addEventListener('click', (e) => {
+            // Check if the click occurred outside the entire menu component (button + dropdown)
+            if (curriculumMenuWrapper && !curriculumMenuWrapper.contains(e.target)) {
+                // Only close it if it's currently open
+                if (!curriculumDropdown.classList.contains('hidden')) {
+                     curriculumDropdown.classList.add('hidden');
+                     curriculumArrow.classList.remove('rotate-180');
+                }
+            }
+        });
+        // --- END NEW DROPDOWN CLICK LOGIC ---
+
+
+        // Function to switch visible content tab
+        function switchSubTab(targetId) {
+            let activeItem = null;
+
+            // Hide all content tabs
+            contentTabs.forEach(tab => {
+                tab.style.display = 'none';
+            });
+
+            // Remove 'active' class from all sidebar items
+            sidebarItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.target === targetId) {
+                    activeItem = item;
+                }
+            });
+
+            // Show the target tab and set the corresponding sidebar item as active
+            const target = document.getElementById(targetId);
+            if (activeItem) activeItem.classList.add('active');
+            if (target) target.style.display = 'block';
+        }
+
+        // Sidebar Sub-Niche Clicks
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', function(e){
+                e.preventDefault();
+                switchSubTab(this.dataset.target);
+            });
+        });
+
+        // Default to the 'introduction' tab on load
+        switchSubTab('introduction');
+
+
+        // --- Video Modal Logic ---
+
+        function closeVideoModal() {
+            videoModal.style.display = "none";
+            videoIframe.src = ""; // Stop the video by clearing the source
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
+
+        videoLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const videoId = this.dataset.video;
+                // Ensures autoplay works and handles existing query params
+                const videoEmbedUrl = videoId.includes('?') ? videoId + '&autoplay=1' : videoId + '?autoplay=1';
+                
+                // Set the iframe source and open the modal
+                videoIframe.src = videoEmbedUrl;
+                videoModal.style.display = "block";
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            });
+        });
+        
+        // Handle closing the modal
+        closeModal.addEventListener('click', closeVideoModal);
+
+        // Close when clicking outside the modal content
+        window.addEventListener('click', (event) => {
+            if (event.target == videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        // Mobile Menu Placeholder (Hides the entire nav, simple implementation)
+        const btnMenu = document.getElementById('btn-menu');
+        const navMenu = document.querySelector('header nav.hidden'); 
+        
+        btnMenu.addEventListener('click', () => {
+             // In a real application, this would open a side menu/modal for mobile
+             console.log("Mobile menu button clicked. Implement mobile menu display logic.");
+        });
+    });
+</script>
+
+</body>
+</html>
